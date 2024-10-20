@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:forceDarkAllowed="true"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <Switch
+        android:id="@+id/switchAuto"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:checked="true"
+        android:contentDescription="Automatically turn the display On and Off"
+        android:switchPadding="3dp"
+        android:text="Auto Display On"
+        android:textOn="Automatic"
+        android:textSize="20sp" />
+
+    <Switch
+        android:id="@+id/switchOn"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:contentDescription="Force the display On or Off"
+        android:enabled="false"
+        android:text="Force Display On"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/ipAddress"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:contentDescription="IP Address for the security monitor"
+        android:ems="10"
+        android:hint="IP Address"
+        android:inputType="phone" />
+</LinearLayout>
