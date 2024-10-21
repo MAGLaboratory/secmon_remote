@@ -1,39 +1,36 @@
 package com.MAGLab.secmon_remote
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Phone
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
-import android.widget.Switch
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.MAGLab.secmon_remote.ui.theme.MAGLabRemoteTheme
+import androidx.appcompat.widget.SwitchCompat
+import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 import java.io.IOException
+import android.content.SharedPreferences as SharedPreferences
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
-    private lateinit var switchAuto: Switch
-    private lateinit var switchOn: Switch
-    private lateinit var ipAddress: EditText
+    private lateinit var switchAuto: SwitchCompat
+    private lateinit var switchOn: SwitchCompat
+    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.app_main)
+        toolbar = findViewById(R.id.toolbar)
+        // The Toolbar defined in the layout has the id "my_toolbar".
+        setSupportActionBar(toolbar)
+
 
         switchAuto = findViewById(R.id.switchAuto)
         switchOn = findViewById(R.id.switchOn)
-        ipAddress = findViewById(R.id.ipAddress)
 
         switchAuto.setOnClickListener {
             if (switchAuto.isChecked) {
@@ -52,6 +49,44 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.topbar_menu, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_settings -> {
+            // User chooses the "Settings" item. Show the app settings UI.
+            val tent : Intent = Intent(this, SettingsActivity::class.java)
+            startActivity(tent)
+            true
+        }
+
+        else -> {
+            // The user's action isn't recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
+    }
+    override fun onPause() {
+        super.onPause()
+        val sp: SharedPreferences = getSharedPreferences("uwudpPref", MODE_PRIVATE)
+        val edit: SharedPreferences.Editor = sp.edit()
+        edit.putBoolean("auto", switchAuto.isChecked)
+        edit.putBoolean("onOff", switchOn.isChecked)
+        edit.apply()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val sh: SharedPreferences = getSharedPreferences("uwudpPref", MODE_PRIVATE)
+        val auto: Boolean = sh.getBoolean("auto", false)
+        val onOff: Boolean = sh.getBoolean("onOff", true)
+
+        switchAuto.setChecked(auto)
+        switchOn.setChecked(onOff)
+    }
 
     private fun sendUdpPacket() {
         try {
@@ -59,12 +94,13 @@ class MainActivity : ComponentActivity() {
             val socket = DatagramSocket()
 
             // Set the target IP address and port
-            val address: InetAddress = InetAddress.getByName(this.ipAddress.text.toString())
+            val sh : SharedPreferences = getSharedPreferences("uwudpPref", MODE_PRIVATE)
+            val ip : String = sh.getString("IP", "").toString()
+            val address: InetAddress = InetAddress.getByName(ip)
             val port = 11017
 
             // Data to send in the UDP packet
-            val data: String
-            data = if(switchOn.isChecked()) "on" else "off"
+            val data: String = if(switchOn.isChecked()) "on" else "off"
 
             // Create the packet and send it
             val packet = DatagramPacket(data.toByteArray(), data.toByteArray().size, address, port)

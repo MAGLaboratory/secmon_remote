@@ -4,35 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:forceDarkAllowed="true"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:orientation="vertical">
 
-    <Switch
-        android:id="@+id/switchAuto"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:checked="true"
-        android:contentDescription="Automatically turn the display On and Off"
-        android:switchPadding="3dp"
-        android:text="Auto Display On"
-        android:textOn="Automatic"
-        android:textSize="20sp" />
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
 
-    <Switch
-        android:id="@+id/switchOn"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:contentDescription="Force the display On or Off"
-        android:enabled="false"
-        android:text="Force Display On"
-        android:textSize="20sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="0dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
 
-    <EditText
-        android:id="@+id/ipAddress"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:contentDescription="IP Address for the security monitor"
-        android:ems="10"
-        android:hint="IP Address"
-        android:inputType="phone" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchAuto"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:checked="false"
+            android:contentDescription="Automatically turn the display On and Off"
+            android:switchPadding="3dp"
+            android:text="Auto Display On"
+            android:textOn="Automatic"
+            android:textSize="20sp" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchOn"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:contentDescription="Force the display On or Off"
+            android:text="Force Display On"
+            android:textSize="20sp"
+            tools:checked="true" />
+
+    </LinearLayout>
+
 </LinearLayout>

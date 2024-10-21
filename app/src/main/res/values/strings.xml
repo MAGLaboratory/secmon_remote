@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">MAGLab Remote</string>
-    <string name="title_activity_main">main_activity</string>
+    <string name="title_activity_main">secmon_remote</string>
+    <string name="action_settings">Settings</string>
+    <string name="ipAddress">IP Address</string>
+    <string name="Auto">Automatic Display On/Off</string>
+    <string name="ForceOn">Force Display On/Off</string>
 </resources>
