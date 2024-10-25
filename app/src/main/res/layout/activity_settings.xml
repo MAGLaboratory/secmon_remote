@@ -26,13 +26,19 @@
             android:orientation="vertical"
             android:paddingVertical="10dp">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/textIP"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:contentDescription="@string/ipAddress"
+                android:hint="@string/ipAddressDesc"
                 android:ems="10"
-                android:hint="@string/ipAddress"
+                android:inputType="text" />
+
+            <AutoCompleteTextView
+                android:id="@+id/textToken"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:hint="@string/tokenDesc"
                 android:inputType="text" />
 
         </LinearLayout>

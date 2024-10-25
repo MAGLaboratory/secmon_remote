@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
             val socket = DatagramSocket()
 
             // Set the target IP address and port
-            val sh : SharedPreferences = getSharedPreferences("uwudpPref", MODE_PRIVATE)
+            val sh : SharedPreferences = getSharedPreferences("uwudpSet", MODE_PRIVATE)
             val ip : String = sh.getString("IP", "").toString()
             val address: InetAddress = InetAddress.getByName(ip)
             val port = 11017

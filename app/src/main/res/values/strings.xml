@@ -5,4 +5,6 @@
     <string name="ipAddress">IP Address</string>
     <string name="Auto">Automatic Display On/Off</string>
     <string name="ForceOn">Force Display On/Off</string>
+    <string name="ipAddressDesc">IP Address for Display</string>
+    <string name="tokenDesc">Token for Display Use</string>
 </resources>
