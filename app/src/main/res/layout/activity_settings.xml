@@ -30,16 +30,19 @@
                 android:id="@+id/textIP"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:hint="@string/ipAddressDesc"
                 android:ems="10"
+                android:fontFamily="monospace"
+                android:hint="@string/ipAddressDesc"
                 android:inputType="text" />
 
             <AutoCompleteTextView
                 android:id="@+id/textToken"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
+                android:fontFamily="monospace"
                 android:hint="@string/tokenDesc"
-                android:inputType="text" />
+                android:inputType="textMultiLine" />
+
 
         </LinearLayout>
     </LinearLayout>

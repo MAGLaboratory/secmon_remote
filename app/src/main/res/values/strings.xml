@@ -3,8 +3,15 @@
     <string name="title_activity_main">secmon_remote</string>
     <string name="action_settings">Settings</string>
     <string name="ipAddress">IP Address</string>
-    <string name="Auto">Automatic Display On/Off</string>
-    <string name="ForceOn">Force Display On/Off</string>
+    <string name="autoDesc">Automatic Display On/Off</string>
+    <string name="forceOnDesc">Force Display On/Off</string>
     <string name="ipAddressDesc">IP Address for Display</string>
     <string name="tokenDesc">Token for Display Use</string>
+    <string name="displayStr">Display</string>
+    <string name="forceOnOffDescLong">Force the display On or Off</string>
+    <string name="autoDescLong">Automatically turn the display On and Off</string>
+    <string name="refreshDesc">Refresh</string>
+    <string name="title_activity_display">activity_display</string>
+    <string name="udpNR">No Response.</string>
+    <string name="udpR">Response: %1$s</string>
 </resources>
