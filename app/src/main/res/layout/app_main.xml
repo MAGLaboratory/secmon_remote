@@ -1,67 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:forceDarkAllowed="true"
-    android:orientation="vertical">
+    android:forceDarkAllowed="true">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toTopOf="@+id/switchAuto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchAuto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="5dp"
-        android:paddingTop="0dp"
-        android:paddingRight="5dp"
-        android:paddingBottom="5dp">
+        android:layout_height="70dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="6dp"
+        android:checked="false"
+        android:contentDescription="@string/autoDescLong"
+        android:text="@string/autoDesc"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/switchOn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchAuto"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:checked="false"
-            android:contentDescription="@string/autoDescLong"
-            android:switchPadding="3dp"
-            android:text="@string/autoDesc"
-            android:textSize="20sp"
-            android:layout_margin="5dp"/>
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchOn"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="6dp"
+        android:contentDescription="@string/forceOnOffDescLong"
+        android:text="@string/forceOnDesc"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRefresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchAuto"
+        tools:checked="true" />
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchOn"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:contentDescription="@string/forceOnOffDescLong"
-            android:text="@string/forceOnDesc"
-            android:textSize="20sp"
-            android:layout_margin="5dp"
-            tools:checked="true" />
+    <Button
+        android:id="@+id/buttonRefresh"
+        android:layout_width="200dp"
+        android:layout_height="56dp"
+        android:text="@string/refreshDesc"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/space"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchOn" />
 
-        <Button
-            android:id="@+id/buttonRefresh"
-            android:layout_width="200dp"
-            android:layout_height="62dp"
-            android:layout_gravity="center"
-            android:text="@string/refreshDesc"
-            android:textSize="20sp"
-            android:layout_margin="5dp"/>
 
-    </LinearLayout>
+    <Space
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/textResponse"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonRefresh" />
 
     <TextView
         android:id="@+id/textResponse"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:focusable="false"
         android:gravity="bottom|start"
-        android:padding="10dp"
-        android:text="Response: "
-        android:textSize="16sp" />
+        android:padding="4dp"
+        android:text=""
+        android:textSize="12sp"
+        android:typeface="monospace"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

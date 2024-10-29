@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">@android:color/system_control_normal_dark</color>
+    <color name="colorMid">@android:color/system_secondary_container_dark</color>
+    <color name="colorBackground">@android:color/system_surface_container_dark</color>
 </resources>

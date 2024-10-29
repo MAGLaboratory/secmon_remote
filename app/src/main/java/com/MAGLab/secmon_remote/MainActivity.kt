@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity() {
             val rxd : ByteArray = ByteArray(1024)
 	        val rxp = DatagramPacket(rxd, rxd.size)
 	        socket.receive(rxp)
-	        val rxs : String = rxd.decodeToString()
+	        val rxs : String = rxd.decodeToString().substringBefore("\u0000")
 	        Log.i("UDP", "Received: $rxs")
             textResponse.post(Runnable { textResponse.text = getString(R.string.udpR, rxs) })
 
