@@ -2,6 +2,7 @@ package com.MAGLab.secmon_remote
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -10,11 +11,14 @@ import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
+import org.json.JSONObject
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 import java.io.IOException
 import java.net.SocketTimeoutException
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
 import android.content.SharedPreferences as SharedPreferences
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var switchOn: SwitchCompat
     private lateinit var toolbar: Toolbar
     private lateinit var buttonRefresh: Button
+    private lateinit var buttonRestart: Button
     private lateinit var textResponse: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         switchAuto = findViewById(R.id.switchAuto)
         switchOn = findViewById(R.id.switchOn)
         buttonRefresh = findViewById(R.id.buttonRefresh)
+        buttonRestart = findViewById(R.id.buttonRestart)
         textResponse = findViewById(R.id.textResponse)
 
         // functions for the content
@@ -53,12 +59,16 @@ class MainActivity : AppCompatActivity() {
         buttonRefresh.setOnClickListener {
             this.udpAction()
         }
+
+        buttonRestart.setOnClickListener {
+            this.udpAction(true)
+        }
     }
 
-    private fun udpAction() {
+    private fun udpAction(restart: Boolean = false) {
         textResponse.text = ""
         Thread {
-            this.excUdpPackets()
+            this.excUdpPackets(restart)
         }.start()
     }
     // function to add buttons to the top toolbar
@@ -109,7 +119,7 @@ class MainActivity : AppCompatActivity() {
         switchOn.setChecked(onOff)
     }
 
-    private fun excUdpPackets() {
+    private fun excUdpPackets(restart: Boolean) {
         // Setup the UDP socket
         val socket = DatagramSocket()
         socket.soTimeout = 1000 // set a socket timeout so that receives time out
@@ -121,16 +131,30 @@ class MainActivity : AppCompatActivity() {
         val port = 11017
 
         // Data to send in the UDP packet
-        val data: String = if(switchOn.isChecked()) "on" else "off"
+        val jsonObject : JSONObject = JSONObject()
+        jsonObject.put("auto", switchAuto.isChecked)
+        if (!switchAuto.isChecked) {
+            jsonObject.put("force", switchOn.isChecked)
+        }
+        if (restart) {
+            jsonObject.put("restart", true)
+        }
+        jsonObject.put("time", System.currentTimeMillis() / 1000L)
+        val jstring: String = jsonObject.toString()
+        val xToken = TokenUtil.extractToken(sh.getString("Token", "").toString())
+        val ac: Mac = Mac.getInstance("HmacSHA256")
+        ac.init(SecretKeySpec(xToken, "HmacSHA256"))
+        ac.update(jstring.toByteArray(Charsets.UTF_8))
+        val data: String = Pair(jstring, Base64.encodeToString(ac.doFinal(), Base64.NO_PADDING).trimEnd()).toString()
 
         // Create the packet and send it
         val packet = DatagramPacket(data.toByteArray(), data.toByteArray().size, address, port)
 
         try {
             socket.send(packet)
-	        // Receive the server response
+	        // Receive the server response 
             val rxd : ByteArray = ByteArray(1024)
-	        val rxp = DatagramPacket(rxd, rxd.size)
+	        val rxp: DatagramPacket = DatagramPacket(rxd, rxd.size)
 	        socket.receive(rxp)
 	        val rxs : String = rxd.decodeToString().substringBefore("\u0000")
 	        Log.i("UDP", "Received: $rxs")

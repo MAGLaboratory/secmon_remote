@@ -101,6 +101,12 @@ fun NumberInputApp() {
                     )
                     Spacer(modifier = Modifier.height(8.dp)) // Add space between text fields
                 }
+                if (textFieldsCount != 0){
+                Button(onClick = {
+                    // TODO
+                }) {
+                    Text ("Send URLs")
+                }}
             }
         }
     }
