@@ -116,6 +116,10 @@ class MainActivity : AppCompatActivity() {
         val onOff: Boolean = sh.getBoolean("onOff", true)
 
         switchAuto.setChecked(auto)
+        // assumes that the switch is enabled on startup
+        if (auto) {
+            switchOn.setEnabled(false)
+        }
         switchOn.setChecked(onOff)
     }
 
